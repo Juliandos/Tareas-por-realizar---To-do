@@ -2,3 +2,4 @@ python -m venv venv
 tareasVenv\scripts\activate.bat
 pip install watchdog
 pip freeze > requirements.txt
+pip install -r requirements.txt
