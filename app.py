@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -10,4 +10,4 @@ app.config['SECRET_KEY'] = '@#qwr$"'
 
 @app.route('/')
 def index():
-    return 'Página principal'
+    return render_template('index.html')
