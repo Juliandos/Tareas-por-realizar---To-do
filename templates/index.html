@@ -61,6 +61,16 @@
       // Agregar una nueva tarea
       $('#add-task-btn').click(function () {
         const taskText = $('#task-input').val().trim();
+        // Obtener la fecha actual
+        var fecha = new Date();
+
+        // Formatear la fecha como "YYYY-MM-DD"
+        var fechaFormateada = fecha.getFullYear() + '-' +
+                              ('0' + (fecha.getMonth() + 1)).slice(-2) + '-' +
+                              ('0' + fecha.getDate()).slice(-2);
+
+        let tarea = {"titulo": taskText, "fecha": fechaFormateada, "terminada": 0}
+
         if (taskText !== '') {
           const taskItem = `
             <li class="list-group-item">
@@ -74,6 +84,20 @@
           $('#task-input').val('');
           taskCount++;
           updateTaskCount();
+
+          // Ruta /guardar para crear una nueva tarea
+          $.ajax({
+            url: '/guardar',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(tarea),
+            success: function (response) {
+              console.log(response);
+            },
+            error: function (error) {
+              console.error(error);
+            }
+          });
         }
       });
   

@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request
 
+from db.crud_tareas import crear_tarea
+
 app = Flask(__name__)
 
 # Configuración básica
@@ -15,9 +17,14 @@ def index():
 # Ruta /guardar las tareas
 
 @app.route('/guardar', methods=['POST'])
-def guardar_tareas():
+def guardar():
     # Recuperar los datos del formulario
     datos = request.json
+    print (request)
+    # Crear la tarea con los datos
+    resultado = crear_tarea(datos)
     # Añadir la tarea a la lista de tareas
-    return {'mensaje': 'Tarea guardada'}
-    # print (datos)
+    if resultado:
+        return {'mensaje': resultado}
+    else:
+        return {'mensaje': 'Error al guardar la tarea'}, 500
