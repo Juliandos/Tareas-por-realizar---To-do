@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <!-- Bootstrap CSS -->
   <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
   <div class="container my-5">
     <!-- Row 1: Task Count -->
@@ -50,8 +52,73 @@
 
   <!-- Bootstrap JS and dependencies -->
   <script src="/static/js/bootstrap.bundle.min.js"></script>
+  <!-- Dependencias jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
-    // Example JavaScript functionality can be added here if needed
+    $(document).ready(function () {
+      let taskCount = 0;
+  
+      // Agregar una nueva tarea
+      $('#add-task-btn').click(function () {
+        const taskText = $('#task-input').val().trim();
+        if (taskText !== '') {
+          const taskItem = `
+            <li class="list-group-item">
+              ${taskText}
+              <div>
+                <button class="btn btn-sm btn-success complete-btn">Finalizar</button>
+                <button class="btn btn-sm btn-danger delete-btn">Eliminar</button>
+              </div>
+            </li>`;
+          $('#task-list').append(taskItem);
+          $('#task-input').val('');
+          taskCount++;
+          updateTaskCount();
+        }
+      });
+  
+      // Marcar tarea como finalizada
+      $('#task-list').on('click', '.complete-btn', function () {
+        $(this).closest('li').toggleClass('completed text-decoration-line-through');
+        $(this).closest('li').removeClass('d-flex');
+      });
+  
+      // Eliminar una tarea
+      $('#task-list').on('click', '.delete-btn', function () {
+        $(this).closest('li').remove();
+        taskCount--;
+        updateTaskCount();
+      });
+  
+      // Mostrar todas las tareas
+      $('#show-all-btn').click(function () {
+        $('#task-list li').show();
+      });
+  
+      // Mostrar solo tareas pendientes
+      $('#show-pending-btn').click(function () {
+        $('#task-list li').show();
+        $('#task-list li.completed').hide();
+      });
+  
+      // Mostrar solo tareas finalizadas
+      $('#show-completed-btn').click(function () {
+        $('#task-list li').hide();
+        $('#task-list li.completed').show();
+      });
+  
+      // Eliminar tareas finalizadas
+      $('#delete-completed-btn').click(function () {
+        $('#task-list li.completed').remove();
+      });
+  
+      // Actualizar el conteo de tareas
+      function updateTaskCount() {
+        $('#task-count').text(taskCount);
+      }
+    });
   </script>
+  
 </body>
+
 </html>
