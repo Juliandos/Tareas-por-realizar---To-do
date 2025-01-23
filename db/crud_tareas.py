@@ -66,4 +66,28 @@ def eliminar_tarea(id_tarea):
         # conn.rollback()
         return {"message": "Error al eliminar la tarea", "error": str(e)}
     
-# Función para traer el id de una tarea
+# Función para actualizar la tarea
+
+def actualizar_tarea(id_tarea):
+    try:
+        conn = connection()
+        
+        cursor = conn.cursor()
+        query = """
+        UPDATE tareas
+        SET Terminada =?
+        WHERE ID =?
+        """
+        cursor.execute(query, (1, id_tarea))
+        
+        # Cerrar la conexión
+        conn.commit()
+        cursor.close()
+        conn.close()
+        
+        return {"message": "Tarea actualizada con éxito"}
+    
+    except Exception as e:
+        # Rollback en caso de error
+        # conn.rollback()
+        return {"message": "Error al actualizar la tarea", "error": str(e)}

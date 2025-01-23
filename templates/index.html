@@ -104,7 +104,7 @@
             contentType: 'application/json',
             data: JSON.stringify(tarea),
             success: function (response) {
-              console.log(response);
+              // console.log(response);
             },
             error: function (error) {
               console.error(error);
@@ -115,8 +115,22 @@
   
       // Marcar tarea como finalizada
       $('#task-list').on('click', '.complete-btn', function () {
-        $(this).closest('li').toggleClass('completed text-decoration-line-through');
-        $(this).closest('li').removeClass('d-flex');
+
+        // Ruta /actualizar para marcar una tarea como finalizada
+        $.ajax({
+          url: '/actualizar/' + $(this).closest('li').attr('id'),
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify({"terminada": 1}),
+          success: function (response) {
+            $(this).closest('li').toggleClass('completed text-decoration-line-through');
+            $(this).closest('li').removeClass('d-flex');
+            location.reload();
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
       });
   
       // Eliminar una tarea
@@ -159,7 +173,28 @@
   
       // Eliminar tareas finalizadas
       $('#delete-completed-btn').click(function () {
-        $('#task-list li.completed').remove();
+        // Seleccionar los elementos <li> que tengan las clases 'completed' y 'text-decoration-line-through'
+        let ids = $('.list-group-item.completed.text-decoration-line-through').map(function () {
+          return parseInt($(this).attr('id'), 10);
+        }).get(); // Convertir el resultado a un array
+        console.log(ids);
+        
+        // Ciclo para borrar tareas finalizadas
+        for (let i = 0; i < ids.length; i++) {
+          // Ruta /eliminar para eliminar una tarea
+          $.ajax({
+            url: '/eliminar/' + ids[i],
+            type: 'DELETE',
+            success: function (response) {
+              $('#task-list li.completed').remove();
+              // console.log(response);
+            },
+            error: function (error) {
+              console.error(error);
+            }
+          });
+        }
+
       });
   
       // Actualizar el conteo de tareas

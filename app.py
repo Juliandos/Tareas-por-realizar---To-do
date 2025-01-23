@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template, request
 
-from db.crud_tareas import crear_tarea, eliminar_tarea, leer_tareas
+from db.crud_tareas import crear_tarea, eliminar_tarea, leer_tareas, actualizar_tarea
 
 app = Flask(__name__)
 
@@ -28,9 +28,8 @@ def guardar():
         return {'mensaje': resultado}
     else:
         return {'mensaje': 'Error al guardar la tarea'}, 500
-    
-# Ruta para eliminar una tarea
 
+# Ruta para eliminar una tarea
 @app.route('/eliminar/<int:id_tarea>', methods=['DELETE'])
 def eliminar(id_tarea):
     # Eliminar la tarea
@@ -40,3 +39,13 @@ def eliminar(id_tarea):
         return resultado
     else:
         return {'mensaje': 'Error al eliminar la tarea'}, 500
+
+# Ruta para actualizar la tarea
+@app.route('/actualizar/<int:id_tarea>', methods=['PUT'])
+def actualizar(id_tarea):
+    print(id_tarea)
+    if id_tarea:
+        actualizar_tarea(id_tarea)
+        return 'success'
+    else:
+        return {'mensaje': 'Error al actualizar la tarea'}, 500
