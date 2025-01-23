@@ -41,11 +41,11 @@ def eliminar(id_tarea):
         return {'mensaje': 'Error al eliminar la tarea'}, 500
 
 # Ruta para actualizar la tarea
-@app.route('/actualizar/<int:id_tarea>', methods=['PUT'])
-def actualizar(id_tarea):
-    print(id_tarea)
+@app.route('/actualizar/<int:id_tarea>/<int:terminada>', methods=['PUT'])
+def actualizar(id_tarea, terminada):
+    print(id_tarea, terminada)
     if id_tarea:
-        actualizar_tarea(id_tarea)
+        actualizar_tarea(id_tarea, terminada)
         return 'success'
     else:
         return {'mensaje': 'Error al actualizar la tarea'}, 500

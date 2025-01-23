@@ -68,7 +68,7 @@ def eliminar_tarea(id_tarea):
     
 # Función para actualizar la tarea
 
-def actualizar_tarea(id_tarea):
+def actualizar_tarea(id_tarea, terminada):
     try:
         conn = connection()
         
@@ -78,7 +78,7 @@ def actualizar_tarea(id_tarea):
         SET Terminada =?
         WHERE ID =?
         """
-        cursor.execute(query, (1, id_tarea))
+        cursor.execute(query, (terminada, id_tarea))
         
         # Cerrar la conexión
         conn.commit()

@@ -116,21 +116,36 @@
       // Marcar tarea como finalizada
       $('#task-list').on('click', '.complete-btn', function () {
 
-        // Ruta /actualizar para marcar una tarea como finalizada
-        $.ajax({
-          url: '/actualizar/' + $(this).closest('li').attr('id'),
-          type: 'PUT',
-          contentType: 'application/json',
-          data: JSON.stringify({"terminada": 1}),
-          success: function (response) {
-            $(this).closest('li').toggleClass('completed text-decoration-line-through');
-            $(this).closest('li').removeClass('d-flex');
-            location.reload();
-          },
-          error: function (error) {
-            console.error(error);
-          }
-        });
+        // Saber si el elemento tiene las clases ".completed.text-decoration-line-through"
+        if ($(this).closest('li').hasClass('text-decoration-line-through')) {
+          $.ajax({
+            url: '/actualizar/' + $(this).closest('li').attr('id') + '/' + 0,
+            type: 'PUT',
+            contentType: 'application/json',
+            success: function (response) {
+              $(this).closest('li').toggleClass('completed text-decoration-line-through');
+              // $(this).closest('li').removeClass('d-flex');
+              location.reload();
+            },
+            error: function (error) {
+              console.error(error);
+            }
+          });
+        }else{
+          $.ajax({
+            url: '/actualizar/' + $(this).closest('li').attr('id') + '/' + 1,
+            type: 'PUT',
+            contentType: 'application/json',
+            success: function (response) {
+              $(this).closest('li').toggleClass('completed text-decoration-line-through');
+              // $(this).closest('li').removeClass('d-flex');
+              location.reload();
+            },
+            error: function (error) {
+              console.error(error);
+            }
+          });
+        }
       });
   
       // Eliminar una tarea
