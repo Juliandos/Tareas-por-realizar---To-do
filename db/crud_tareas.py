@@ -1,5 +1,19 @@
 from .conexion import connection
 
+# Función para leer todas las tareas
+
+def leer_tareas():
+    try:
+        conn = connection()
+        cursor = conn.cursor()
+        query = "SELECT * FROM tareas"
+        cursor.execute(query)
+        tareas = cursor.fetchall()
+        conn.close()
+        return tareas
+    except Exception as e:
+        return {"message": "Error al leer las tareas", "error": str(e)}
+
 def crear_tarea(tarea):
     print(tarea, tarea['titulo'], tarea['fecha'], tarea['terminada'])
     try:
@@ -30,3 +44,27 @@ def crear_tarea(tarea):
         # Rollback en caso de error
         # conn.rollback()
         return {"message": "Error al crear la tarea", "error": str(e)}
+
+def eliminar_tarea(id_tarea):
+    try:
+        # Conectarse a la base de datos
+        conn = connection()
+        
+        # Eliminar la tarea
+        cursor = conn.cursor()
+        query = "DELETE FROM tareas WHERE ID = ?"
+        cursor.execute(query, (id_tarea,))
+        
+        # Cerrar la conexión
+        conn.commit()
+        cursor.close()
+        conn.close()
+        
+        return {"message": "Tarea eliminada con éxito"}
+    
+    except Exception as e:
+        # Rollback en caso de error
+        # conn.rollback()
+        return {"message": "Error al eliminar la tarea", "error": str(e)}
+    
+# Función para traer el id de una tarea

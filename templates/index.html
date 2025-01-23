@@ -45,6 +45,16 @@
       <div class="col">
         <ul id="task-list" class="list-group">
           <!-- Tasks will be dynamically added here -->
+          <!-- Renderización inicial de las tareas -->
+          {% for tarea in tareas %}
+            <li id="{{ tarea[0] }}" class="list-group-item {% if tarea[3] %}completed text-decoration-line-through{% endif %}">
+                {{ tarea[1] }}
+                <div>
+                    <button class="btn btn-sm btn-success complete-btn">Finalizar</button>
+                    <button class="btn btn-sm btn-danger delete-btn">Eliminar</button>
+                </div>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </div>
@@ -56,6 +66,7 @@
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script>
     $(document).ready(function () {
+
       let taskCount = 0;
   
       // Agregar una nueva tarea
@@ -109,9 +120,23 @@
   
       // Eliminar una tarea
       $('#task-list').on('click', '.delete-btn', function () {
-        $(this).closest('li').remove();
+        
+        const taskId = $(this).closest('li').attr('id');
         taskCount--;
         updateTaskCount();
+        
+        // Ruta /eliminar para eliminar una tarea
+        $.ajax({
+          url: '/eliminar/' + taskId,
+          type: 'DELETE',
+          success: function (response) {
+            $(this).closest('li').remove();
+            console.log(response);
+          },
+          error: function (error) {
+            console.error(error);
+          }
+        });
       });
   
       // Mostrar todas las tareas
