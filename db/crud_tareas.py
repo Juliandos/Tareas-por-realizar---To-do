@@ -15,7 +15,6 @@ def leer_tareas():
         return {"message": "Error al leer las tareas", "error": str(e)}
 
 def crear_tarea(tarea):
-    print(tarea, tarea['titulo'], tarea['fecha'], tarea['terminada'])
     try:
         # Conectarse a la base de datos
         conn = connection()

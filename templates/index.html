@@ -67,8 +67,9 @@
   <script>
     $(document).ready(function () {
 
-      let taskCount = 0;
-  
+      let taskCount = $('#task-list .list-group-item').length;
+      updateTaskCount()
+      
       // Agregar una nueva tarea
       $('#add-task-btn').click(function () {
         const taskText = $('#task-input').val().trim();

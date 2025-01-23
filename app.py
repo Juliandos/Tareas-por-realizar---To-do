@@ -33,7 +33,6 @@ def guardar():
 
 @app.route('/eliminar/<int:id_tarea>', methods=['DELETE'])
 def eliminar(id_tarea):
-    print(id_tarea)
     # Eliminar la tarea
     resultado = eliminar_tarea(id_tarea)
     # Añadir la tarea a la lista de tareas
